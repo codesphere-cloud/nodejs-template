@@ -35,22 +35,23 @@ A complete Codesphere app template featuring a URL shortener service with QR cod
 
 ### Backend (Port 3000)
 
-- `POST /shorten` - Create a shortened URL
+- `POST /api/shorten` - Create a shortened URL
   - Body: `{ "url": "https://example.com" }`
   - Returns: `{ "shortId": "abc1234", "shortUrl": "http://localhost:3000/abc1234", "originalUrl": "https://example.com" }`
 
-- `GET /:shortId` - Redirect to original URL
+- `GET /api/:shortId` - Redirect to original URL
   - Redirects with 302 status or returns 404 if not found
 
-- `GET /qr/:shortId` - Generate QR code image
+- `GET /api/qr/:shortId` - Generate QR code image
   - Returns PNG image of QR code for the shortened URL
 
-- `GET /health` - Health check endpoint
-- `GET /urls` - List all shortened URLs (debug endpoint)
+- `GET /api/health` - Health check endpoint
+- `GET /api/urls` - List all shortened URLs (debug endpoint)
 
 ### Frontend (Port 3000)
 
 - `GET /` - Main application interface
+- `GET /:shortId` - Shortened URL redirects (forwards to `/api/:shortId`)
 
 ## Local Development
 
