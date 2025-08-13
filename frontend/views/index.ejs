@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener with QR Codes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="url"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        input[type="url"]:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            border-left: 4px solid #007bff;
+            display: none;
+        }
+        .result.show {
+            display: block;
+        }
+        .short-url {
+            margin-bottom: 15px;
+        }
+        .short-url a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+            word-break: break-all;
+        }
+        .short-url a:hover {
+            text-decoration: underline;
+        }
+        .qr-code {
+            text-align: center;
+            margin-top: 15px;
+        }
+        .qr-code img {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            background-color: white;
+        }
+        .error {
+            color: #dc3545;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 15px;
+            display: none;
+        }
+        .error.show {
+            display: block;
+        }
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 15px;
+            color: #007bff;
+        }
+        .loading.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔗 URL Shortener with QR Codes</h1>
+        
+        <form id="urlForm">
+            <div class="form-group">
+                <label for="url">Enter URL to shorten:</label>
+                <input 
+                    type="url" 
+                    id="url" 
+                    name="url" 
+                    placeholder="https://example.com" 
+                    required
+                >
+            </div>
+            <button type="submit" id="submitBtn">Shorten URL</button>
+        </form>
+
+        <div class="loading" id="loading">
+            Generating shortened URL and QR code...
+        </div>
+
+        <div class="error" id="error"></div>
+
+        <div class="result" id="result">
+            <h3>✅ URL Successfully Shortened!</h3>
+            <div class="short-url">
+                <strong>Shortened URL:</strong><br>
+                <a href="#" id="shortUrlLink" target="_blank"></a>
+            </div>
+            <div class="qr-code">
+                <strong>QR Code:</strong><br>
+                <img id="qrCodeImage" alt="QR Code" style="display: none;">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:3001';
+        
+        document.getElementById('urlForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const urlInput = document.getElementById('url');
+            const submitBtn = document.getElementById('submitBtn');
+            const loading = document.getElementById('loading');
+            const error = document.getElementById('error');
+            const result = document.getElementById('result');
+            const shortUrlLink = document.getElementById('shortUrlLink');
+            const qrCodeImage = document.getElementById('qrCodeImage');
+            
+            const url = urlInput.value.trim();
+            
+            if (!url) {
+                showError('Please enter a valid URL');
+                return;
+            }
+            
+            // Reset UI
+            hideError();
+            hideResult();
+            showLoading();
+            submitBtn.disabled = true;
+            
+            try {
+                // Call the backend API to shorten the URL
+                const response = await fetch(`${API_BASE_URL}/shorten`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ url: url })
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.error || 'Failed to shorten URL');
+                }
+                
+                // Update the UI with the results
+                shortUrlLink.href = data.shortUrl;
+                shortUrlLink.textContent = data.shortUrl;
+                
+                // Set QR code image source
+                qrCodeImage.src = `${API_BASE_URL}/qr/${data.shortId}`;
+                qrCodeImage.style.display = 'block';
+                qrCodeImage.onerror = function() {
+                    this.alt = 'Failed to load QR code';
+                    this.style.border = '1px solid #dc3545';
+                };
+                
+                // Show result
+                hideLoading();
+                showResult();
+                
+            } catch (err) {
+                hideLoading();
+                showError(err.message || 'An error occurred while shortening the URL');
+            } finally {
+                submitBtn.disabled = false;
+            }
+        });
+        
+        function showError(message) {
+            const error = document.getElementById('error');
+            error.textContent = message;
+            error.classList.add('show');
+        }
+        
+        function hideError() {
+            const error = document.getElementById('error');
+            error.classList.remove('show');
+        }
+        
+        function showResult() {
+            const result = document.getElementById('result');
+            result.classList.add('show');
+        }
+        
+        function hideResult() {
+            const result = document.getElementById('result');
+            result.classList.remove('show');
+        }
+        
+        function showLoading() {
+            const loading = document.getElementById('loading');
+            loading.classList.add('show');
+        }
+        
+        function hideLoading() {
+            const loading = document.getElementById('loading');
+            loading.classList.remove('show');
+        }
+    </script>
+</body>
+</html>

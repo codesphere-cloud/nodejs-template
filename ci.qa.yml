@@ -1,0 +1,49 @@
+schemaVersion: v0.2
+prepare:
+  steps:
+    - name: install frontend dependencies
+      command: cd frontend && npm install
+    - name: install backend dependencies
+      command: cd backend && npm install
+    - name: run linting
+      command: cd backend && npm run lint
+    - name: run frontend linting
+      command: cd frontend && npm run lint
+test:
+  steps:
+    - name: run backend tests with coverage
+      command: cd backend && npm run test:coverage
+    - name: run frontend tests with coverage
+      command: cd frontend && npm run test:coverage
+    - name: run e2e tests
+      command: npm run test:e2e
+    - name: run performance tests
+      command: npm run test:performance
+run:
+  frontend:
+    steps:
+      - name: start frontend application
+        command: "cd frontend && NODE_ENV=test QA_MODE=true npm start"
+    plan: 8
+    replicas: 1
+    isPublic: true
+    network:
+      path: /
+      stripPath: false
+  backend:
+    steps:
+      - name: start backend application
+        command: cd backend && NODE_ENV=test QA_MODE=true DEBUG_LOGGING=true npm start
+    plan: 8
+    replicas: 2
+    isPublic: false
+  api-docs:
+    steps:
+      - name: deploy api endpoints
+        command: cd backend && NODE_ENV=test QA_MODE=true npm start
+    plan: 8
+    replicas: 1
+    isPublic: true
+    network:
+      path: /api
+      stripPath: false

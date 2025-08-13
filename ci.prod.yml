@@ -1,0 +1,47 @@
+schemaVersion: v0.2
+prepare:
+  steps:
+    - name: install frontend dependencies
+      command: cd frontend && npm ci
+    - name: install backend dependencies
+      command: cd backend && npm ci
+    - name: run security audit
+      command: cd backend && npm audit --audit-level moderate
+    - name: run frontend audit
+      command: cd frontend && npm audit --audit-level moderate
+test:
+  steps:
+    - name: run backend tests
+      command: cd backend && npm test
+    - name: run frontend tests
+      command: cd frontend && npm test
+    - name: run integration tests
+      command: npm run test:integration
+run:
+  frontend:
+    steps:
+      - name: start frontend application
+        command: "cd frontend && NODE_ENV=production npm start"
+    plan: 16
+    replicas: 2
+    isPublic: true
+    network:
+      path: /
+      stripPath: false
+  backend:
+    steps:
+      - name: start backend application
+        command: cd backend && NODE_ENV=production npm start
+    plan: 16
+    replicas: 3
+    isPublic: false
+  api-docs:
+    steps:
+      - name: deploy api endpoints
+        command: cd backend && NODE_ENV=production npm start
+    plan: 8
+    replicas: 1
+    isPublic: true
+    network:
+      path: /api
+      stripPath: false

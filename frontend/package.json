@@ -1,0 +1,26 @@
+{
+  "name": "url-shortener-frontend",
+  "version": "1.0.0",
+  "description": "Frontend for URL shortener with QR codes",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:coverage": "echo \"Error: no test specified\" && exit 1",
+    "lint": "echo \"Error: no lint specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "keywords": [
+    "url-shortener",
+    "frontend",
+    "express"
+  ],
+  "author": "",
+  "license": "MIT"
+}
