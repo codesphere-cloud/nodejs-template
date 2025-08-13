@@ -22,13 +22,6 @@ run:
     network:
       path: /
       stripPath: false
-  backend:
-    steps:
-      - name: start backend application in dev mode
-        command: cd backend && NODE_ENV=development DEBUG=true npm run dev
-    plan: 4
-    replicas: 1
-    isPublic: false
   api-docs:
     steps:
       - name: deploy api endpoints

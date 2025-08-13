@@ -156,6 +156,7 @@ The configuration automatically:
 ### Environment Variables
 
 - `PORT` - Server port (defaults to 3000 for both services)
+- `WORKSPACE_DEV_DOMAIN` - Domain for shortened URLs (automatically set by Codesphere)
 
 ### Customization
 

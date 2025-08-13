@@ -30,13 +30,6 @@ run:
     network:
       path: /
       stripPath: false
-  backend:
-    steps:
-      - name: start backend application
-        command: cd backend && NODE_ENV=test QA_MODE=true DEBUG_LOGGING=true npm start
-    plan: 8
-    replicas: 2
-    isPublic: false
   api-docs:
     steps:
       - name: deploy api endpoints

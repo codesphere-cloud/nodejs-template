@@ -35,8 +35,10 @@ app.post('/shorten', (req, res) => {
     // Store mapping in database
     urlDatabase.set(shortId, url);
     
-    // Return shortened URL
-    const shortUrl = `http://localhost:${PORT}/${shortId}`;
+    // Generate shortened URL using environment domain or localhost fallback
+    const domain = process.env.WORKSPACE_DEV_DOMAIN || `localhost:${PORT}`;
+    const protocol = process.env.WORKSPACE_DEV_DOMAIN ? 'https' : 'http';
+    const shortUrl = `${protocol}://${domain}/${shortId}`;
     
     res.json({
       shortId,
@@ -79,8 +81,10 @@ app.get('/qr/:shortId', async (req, res) => {
       return res.status(404).json({ error: 'Short URL not found' });
     }
     
-    // Create the full shortened URL
-    const shortUrl = `http://localhost:${PORT}/${shortId}`;
+    // Create the full shortened URL using environment domain
+    const domain = process.env.WORKSPACE_DEV_DOMAIN || `localhost:${PORT}`;
+    const protocol = process.env.WORKSPACE_DEV_DOMAIN ? 'https' : 'http';
+    const shortUrl = `${protocol}://${domain}/${shortId}`;
     
     // Set response headers
     res.setHeader('Content-Type', 'image/png');
@@ -103,10 +107,13 @@ app.get('/health', (req, res) => {
 
 // Get all URLs endpoint (for debugging)
 app.get('/urls', (req, res) => {
+  const domain = process.env.WORKSPACE_DEV_DOMAIN || `localhost:${PORT}`;
+  const protocol = process.env.WORKSPACE_DEV_DOMAIN ? 'https' : 'http';
+  
   const urls = Array.from(urlDatabase.entries()).map(([shortId, longUrl]) => ({
     shortId,
     longUrl,
-    shortUrl: `http://localhost:${PORT}/${shortId}`
+    shortUrl: `${protocol}://${domain}/${shortId}`
   }));
   res.json(urls);
 });

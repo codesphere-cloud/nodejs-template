@@ -28,19 +28,12 @@ run:
     network:
       path: /
       stripPath: false
-  backend:
-    steps:
-      - name: start backend application
-        command: cd backend && NODE_ENV=production npm start
-    plan: 16
-    replicas: 3
-    isPublic: false
   api-docs:
     steps:
       - name: deploy api endpoints
         command: cd backend && NODE_ENV=production npm start
-    plan: 8
-    replicas: 1
+    plan: 16
+    replicas: 2
     isPublic: true
     network:
       path: /api
