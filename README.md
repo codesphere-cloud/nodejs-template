@@ -2,6 +2,16 @@
 
 A complete Codesphere app template featuring a URL shortener service with QR code generation, built with NodeJS and Express using a two-service architecture.
 
+## Features
+
+- **URL Shortening**: Convert long URLs into short, manageable links
+- **QR Code Generation**: Automatic QR code creation for each shortened URL
+- **Codesphere Optimized**: Multiple deployment profiles for different environments
+- **Clean Architecture**: Frontend on root path, API on `/api` namespace
+- **Smart Routing**: Automatic forwarding of shortened URLs to backend
+- **Responsive UI**: Clean, mobile-friendly interface
+- **Error Handling**: Comprehensive error handling and validation
+
 ## Project Structure
 
 ```
@@ -11,7 +21,7 @@ A complete Codesphere app template featuring a URL shortener service with QR cod
 │   └── index.js           # API endpoints and QR code generation
 ├── frontend/               # Express frontend server
 │   ├── package.json       # Frontend dependencies
-│   ├── index.js          # Frontend server setup
+│   ├── index.js          # Frontend server with smart routing
 │   └── public/
 │       └── index.html    # Main UI page
 ├── .gitignore             # Git ignore rules
@@ -22,22 +32,13 @@ A complete Codesphere app template featuring a URL shortener service with QR cod
 └── README.md             # This file
 ```
 
-## Features
-
-- **URL Shortening**: Convert long URLs into short, manageable links
-- **QR Code Generation**: Automatic QR code creation for each shortened URL
-- **In-Memory Storage**: Fast URL lookup using Map data structure
-- **CORS Enabled**: Cross-origin requests supported
-- **Responsive UI**: Clean, mobile-friendly interface
-- **Error Handling**: Comprehensive error handling and validation
-
 ## API Endpoints
 
-### Backend (Port 3000)
+### Backend API (`/api`)
 
 - `POST /api/shorten` - Create a shortened URL
   - Body: `{ "url": "https://example.com" }`
-  - Returns: `{ "shortId": "abc1234", "shortUrl": "http://localhost:3000/abc1234", "originalUrl": "https://example.com" }`
+  - Returns: `{ "shortId": "abc1234", "shortUrl": "https://yourdomain.codesphere.com/abc1234", "originalUrl": "https://example.com" }`
 
 - `GET /api/:shortId` - Redirect to original URL
   - Redirects with 302 status or returns 404 if not found
@@ -48,52 +49,27 @@ A complete Codesphere app template featuring a URL shortener service with QR cod
 - `GET /api/health` - Health check endpoint
 - `GET /api/urls` - List all shortened URLs (debug endpoint)
 
-### Frontend (Port 3000)
+### Frontend
 
 - `GET /` - Main application interface
 - `GET /:shortId` - Shortened URL redirects (forwards to `/api/:shortId`)
 
-## Local Development
+## Codesphere Deployment (Recommended)
 
-### Prerequisites
+This template is optimized for Codesphere deployment with multiple environment profiles:
 
-- Node.js (v14 or higher)
-- npm
+### Quick Start
+1. **Fork or clone** this repository
+2. **Connect to Codesphere** and import your repository  
+3. **Choose deployment profile:**
+   - Use default `ci.yml` for basic deployment
+   - Use `ci.dev.yml` for development environment
+   - Use `ci.qa.yml` for testing environment  
+   - Use `ci.prod.yml` for production environment
 
-### Setup
-
-1. **Install backend dependencies:**
-   ```bash
-   cd backend
-   npm install
-   ```
-
-2. **Install frontend dependencies:**
-   ```bash
-   cd frontend
-   npm install
-   ```
-
-3. **Start the backend server:**
-   ```bash
-   cd backend
-   npm start
-   ```
-   Backend will run on http://localhost:3000
-
-4. **Start the frontend server:**
-   ```bash
-   cd frontend
-   npm start
-   ```
-   Frontend will run on http://localhost:3000
-
-5. **Open your browser and navigate to:**
-   http://localhost:3000
-
-## Codesphere Deployment
-
-This project includes multiple CI configuration files for different environments:
+4. **Deploy and access:**
+   - Your app will be available at `https://yourdomain.codesphere.com/`
+   - Shortened URLs work automatically: `https://yourdomain.codesphere.com/abc1234`
 
 ### Environment Profiles
 
@@ -117,20 +93,6 @@ This project includes multiple CI configuration files for different environments
   - Production optimizations
   - No debug logging
 
-### Usage
-
-To deploy with a specific profile, use the appropriate CI file:
-```bash
-# Development deployment
-codesphere deploy --config ci.dev.yml
-
-# QA deployment  
-codesphere deploy --config ci.qa.yml
-
-# Production deployment
-codesphere deploy --config ci.prod.yml
-```
-
 The configuration automatically:
 1. Installs dependencies for both services
 2. Runs appropriate tests for the environment
@@ -139,11 +101,41 @@ The configuration automatically:
 
 ## Usage
 
-1. Open the web interface
+1. Open your Codesphere application URL
 2. Enter a long URL in the input field
 3. Click "Shorten URL"
 4. Get your shortened URL and QR code
 5. Share the shortened URL or scan the QR code
+
+## Local Development (Optional)
+
+For local development and testing:
+
+### Prerequisites
+- Node.js (v14 or higher)
+- npm
+
+### Setup
+1. **Install dependencies:**
+   ```bash
+   cd backend && npm install
+   cd frontend && npm install
+   ```
+
+2. **Start both services:**
+   ```bash
+   # Terminal 1 - Backend
+   cd backend && npm start
+   
+   # Terminal 2 - Frontend  
+   cd frontend && npm start
+   ```
+
+3. **Access locally:**
+   - Frontend: http://localhost:3000
+   - API: http://localhost:3000/api
+
+Note: When running locally, shortened URLs will use localhost domains.
 
 ## Technologies Used
 
@@ -156,7 +148,7 @@ The configuration automatically:
 
 ### Environment Variables
 
-- `PORT` - Server port (defaults to 3000 for both services)
+- `PORT` - Server port (defaults to 3000, automatically configured by Codesphere)
 - `WORKSPACE_DEV_DOMAIN` - Domain for shortened URLs (automatically set by Codesphere)
 
 ### Customization
@@ -164,6 +156,7 @@ The configuration automatically:
 - Modify QR code settings in `backend/index.js`
 - Update UI styling in `frontend/public/index.html`
 - Adjust API endpoints in frontend JavaScript
+- Configure resource allocation in CI profile files
 
 ## License
 
