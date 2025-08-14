@@ -19,7 +19,7 @@ run:
     network:
       path: /
       stripPath: false
-  api-docs:
+  api:
     steps:
       - name: deploy api endpoints
         command: cd backend && npm start

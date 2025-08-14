@@ -16,6 +16,8 @@ A complete Codesphere app template featuring a URL shortener service with QR cod
 
 ```
 /
+├── .github/workflows/       # GitHub Actions for preview deployments
+│   └── codesphere-deploy.yml
 ├── backend/                 # Express API server
 │   ├── package.json        # Backend dependencies
 │   └── index.js           # API endpoints and QR code generation
@@ -25,6 +27,8 @@ A complete Codesphere app template featuring a URL shortener service with QR cod
 │   └── public/
 │       └── index.html    # Main UI page
 ├── .gitignore             # Git ignore rules
+├── .gitlab-ci.yml         # GitLab CI/CD pipeline for preview deployments
+├── bitbucket-pipelines.yml # Bitbucket pipeline for preview deployments
 ├── ci.yml                 # Default Codesphere deployment configuration
 ├── ci.dev.yml            # Development environment configuration
 ├── ci.qa.yml             # QA/Testing environment configuration
@@ -98,6 +102,31 @@ The configuration automatically:
 2. Runs appropriate tests for the environment
 3. Starts both frontend and backend services
 4. Configures proper networking and routing
+
+### Preview Deployments
+
+This template includes CI/CD pipeline configurations for automatic preview deployments:
+
+#### GitLab (`.gitlab-ci.yml`)
+- **Triggers**: Merge request events
+- **Features**: Automatic deploy and manual teardown
+- **Environment**: `Preview Deployment NodeJS MR_$CI_MERGE_REQUEST_IID`
+
+#### Bitbucket (`bitbucket-pipelines.yml`)
+- **Triggers**: Pull request events
+- **Features**: Automatic preview deployment
+- **Plan**: Micro with on-demand scaling
+
+#### GitHub (`.github/workflows/codesphere-deploy.yml`)
+- **Triggers**: Pull request events and manual dispatch
+- **Features**: Automatic deployment with proper permissions
+- **Plan**: Micro with on-demand scaling
+
+**Required Secrets/Variables:**
+- `CODESPHERE_EMAIL` - Your Codesphere account email
+- `CODESPHERE_PASSWORD` - Your Codesphere account password
+- `CODESPHERE_TEAM` - Your Codesphere team name
+- Additional platform-specific tokens as needed
 
 ## Usage
 

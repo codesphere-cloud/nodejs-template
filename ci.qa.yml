@@ -30,7 +30,7 @@ run:
     network:
       path: /
       stripPath: false
-  api-docs:
+  api:
     steps:
       - name: deploy api endpoints
         command: cd backend && NODE_ENV=test QA_MODE=true npm start

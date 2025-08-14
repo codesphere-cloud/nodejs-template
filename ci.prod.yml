@@ -28,7 +28,7 @@ run:
     network:
       path: /
       stripPath: false
-  api-docs:
+  api:
     steps:
       - name: deploy api endpoints
         command: cd backend && NODE_ENV=production npm start
