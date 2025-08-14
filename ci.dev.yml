@@ -6,7 +6,11 @@ prepare:
     - name: install backend dependencies
       command: cd backend && npm install
 test:
-  steps: []
+  steps:
+    - name: run backend tests
+      command: cd backend && npm test
+    - name: run frontend tests
+      command: cd frontend && npm test
 run:
   frontend:
     steps:
