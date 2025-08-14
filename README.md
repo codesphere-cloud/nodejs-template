@@ -85,17 +85,15 @@ This template is optimized for Codesphere deployment with multiple environment p
   - Hot reloading with nodemon
 
 - **`ci.qa.yml`** - QA/Testing environment with:
-  - Enhanced testing suite (coverage, e2e, performance)
-  - Linting and code quality checks
-  - QA mode flags for debugging
   - Medium resource allocation (plan: 8)
+  - QA mode flags for debugging
+  - Ready for test implementation
 
 - **`ci.prod.yml`** - Production environment with:
   - Higher resource allocation (plan: 16)
   - Multiple replicas for high availability
   - Security audits during deployment
   - Production optimizations
-  - No debug logging
 
 The configuration automatically:
 1. Installs dependencies for both services

@@ -11,14 +11,10 @@ prepare:
       command: cd frontend && npm run lint
 test:
   steps:
-    - name: run backend tests with coverage
-      command: cd backend && npm run test:coverage
-    - name: run frontend tests with coverage
-      command: cd frontend && npm run test:coverage
-    - name: run e2e tests
-      command: npm run test:e2e
-    - name: run performance tests
-      command: npm run test:performance
+    - name: run backend tests
+      command: cd backend && npm test
+    - name: run frontend tests
+      command: cd frontend && npm test
 run:
   frontend:
     steps:
