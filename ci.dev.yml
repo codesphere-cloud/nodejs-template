@@ -16,7 +16,7 @@ run:
     steps:
       - name: start frontend application in dev mode
         command: "cd frontend && NODE_ENV=development DEBUG=true npm run dev"
-    plan: 4
+    plan: 8
     replicas: 1
     isPublic: true
     network:
@@ -26,7 +26,7 @@ run:
     steps:
       - name: deploy api endpoints
         command: cd backend && NODE_ENV=development npm start
-    plan: 4
+    plan: 8
     replicas: 1
     isPublic: true
     network:

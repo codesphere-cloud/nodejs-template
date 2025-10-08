@@ -20,7 +20,7 @@ run:
     steps:
       - name: start frontend application
         command: "cd frontend && NODE_ENV=production npm start"
-    plan: 16
+    plan: 8
     replicas: 2
     isPublic: true
     network:
@@ -30,7 +30,7 @@ run:
     steps:
       - name: deploy api endpoints
         command: cd backend && NODE_ENV=production npm start
-    plan: 16
+    plan: 8
     replicas: 2
     isPublic: true
     network:
