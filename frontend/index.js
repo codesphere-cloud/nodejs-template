@@ -26,6 +26,8 @@ app.get('/:shortId', (req, res) => {
   }
 });
 
+console.log("hi");
+
 app.listen(PORT, () => {
   console.log(`Frontend server running on http://localhost:${PORT}`);
 });
