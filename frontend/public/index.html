@@ -146,6 +146,7 @@
             <div class="short-url">
                 <strong>Shortened URL:</strong><br>
                 <a href="#" id="shortUrlLink" target="_blank"></a>
+                <button type="button" id="copyBtn" style="margin-top:10px;width:auto;padding:6px 14px;font-size:14px;">Copy</button>
             </div>
             <div class="qr-code">
                 <strong>QR Code:</strong><br>
@@ -155,6 +156,18 @@
     </div>
 
     <script>
+        document.getElementById('copyBtn').addEventListener('click', async function() {
+            const link = document.getElementById('shortUrlLink').href;
+            if (!link) return;
+            try {
+                await navigator.clipboard.writeText(link);
+                this.textContent = 'Copied!';
+                setTimeout(() => { this.textContent = 'Copy'; }, 1500);
+            } catch (err) {
+                this.textContent = 'Copy failed';
+            }
+        });
+
         document.getElementById('urlForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -210,6 +223,7 @@
                 // Show result
                 hideLoading();
                 showResult();
+                document.getElementById('copyBtn').textContent = 'Copy';
                 
             } catch (err) {
                 hideLoading();
