@@ -1,0 +1,52 @@
+name: url-shortener
+schemaVersion: v0
+backend:
+  landscape:
+    gitUrl: https://github.com/codesphere-cloud/nodejs-template
+author: Codesphere Test
+capabilities:
+  pause: false
+  backups: false
+  pointInTimeRecovery: false
+category: Utilities
+description: |
+  A complete Codesphere app template featuring a URL shortener service with QR code generation,
+  built with NodeJS and Express using a two-service architecture.
+displayName: URL Shortener
+iconUrl: foo.com/bar.svg
+configSchema: {}
+detailsSchema:
+  type: object
+  properties:
+    hostname:
+      type: string
+      readOnly: true
+    service_url_frontend_3000:
+      type: string
+      readOnly: true
+    statusUrl:
+      type: string
+      readOnly: true
+      default: '${{ .hostname }}/health'
+    status:
+      type: 'object'
+      properties:
+        state:
+          type: 'string'
+      'x-endpoint':
+          '${{ .statusUrl }}'
+secretsSchema: {}
+plans:
+  - id: 0
+    name: default
+    description: default
+    parameters: {}
+versions:
+  0.0.1-dev:
+    ciProfile: dev
+    gitRef: 158a6cd613db41bca43e6c28000d0f79832e5155
+    description: Fix plan IDs (use plan ids that actually exist). Dev Profile
+  0.0.1:
+    ciProfile: prod
+    gitRef: 158a6cd613db41bca43e6c28000d0f79832e5155
+    description: Fix plan IDs (use plan ids that actually exist). Prod Profile

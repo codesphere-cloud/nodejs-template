@@ -12,10 +12,15 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+app.get('/health', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.end(JSON.stringify({ state: 'healthy' }));
+});
+
 // Catch-all route for shortened URLs - redirect to API
 app.get('/:shortId', (req, res) => {
   const { shortId } = req.params;
-  
+
   // Check if it looks like a short ID (7 characters alphanumeric)
   if (shortId.length === 7 && /^[a-zA-Z0-9]+$/.test(shortId)) {
     // Redirect to the API endpoint for this short ID
