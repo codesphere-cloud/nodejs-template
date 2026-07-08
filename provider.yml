@@ -32,9 +32,8 @@ detailsSchema:
       type: 'object'
       properties:
         state:
-          type: 'string'
-      'x-endpoint':
-          '${{ .statusUrl }}'
+          type: string
+      x-endpoint: '${{ .statusUrl }}'
 secretsSchema: {}
 plans:
   - id: 0
