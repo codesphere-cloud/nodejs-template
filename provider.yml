@@ -13,7 +13,7 @@ description: |
   A complete Codesphere app template featuring a URL shortener service with QR code generation,
   built with NodeJS and Express using a two-service architecture.
 displayName: URL Shortener
-iconUrl: foo.com/bar.svg
+iconUrl: https://cloud.codesphere.com/ide/assets/favicon-32x32.png
 configSchema: {}
 detailsSchema:
   type: object
