@@ -5,6 +5,7 @@ backend:
     gitUrl: https://github.com/codesphere-cloud/nodejs-template
 author: Codesphere Test
 capabilities:
+  highAvailability: false
   pause: false
   backups: false
   pointInTimeRecovery: false
