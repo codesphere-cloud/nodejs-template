@@ -25,16 +25,12 @@ detailsSchema:
     service_url_frontend_3000:
       type: string
       readOnly: true
-    statusUrl:
-      type: string
-      readOnly: true
-      default: '${{ .hostname }}/health'
     status:
       type: 'object'
       properties:
         state:
           type: string
-      x-endpoint: '${{ .statusUrl }}'
+      x-endpoint: '${{ .service_url_frontend_3000 }}/health'
 secretsSchema: {}
 plans:
   - id: 0
