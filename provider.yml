@@ -34,7 +34,7 @@ detailsSchema:
       properties:
         state:
           type: string
-      x-endpoint: '${{ .hostname }}/health'
+      x-endpoint: '${{ .service_url_frontend_3000 }}/health'
 secretsSchema: {}
 plans:
   - id: 0
