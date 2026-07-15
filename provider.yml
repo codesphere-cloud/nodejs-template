@@ -25,10 +25,6 @@ detailsSchema:
     service_url_frontend_3000:
       type: string
       readOnly: true
-    statusUrl:
-      type: string
-      readOnly: true
-      default: '${{ .hostname }}/health'
     status:
       type: 'object'
       properties:
