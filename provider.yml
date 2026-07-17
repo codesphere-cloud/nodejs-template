@@ -50,3 +50,7 @@ versions:
     ciProfile: prod
     gitRef: 4aa368a7fcc4b2daba7b5c56e79df512a0e7a545
     description: Add health endpoint
+  0.1.1:
+    ciProfile: prod
+    gitRef: ab76d1c7e1594919b7d098838e536a0750c5a4ee
+    description: 'fix: Use same format for health as backend'
