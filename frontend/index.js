@@ -13,8 +13,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/health', (req, res) => {
-  res.setHeader('Content-Type', 'application/json');
-  res.end(JSON.stringify({ state: 'healthy' }));
+  res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
 // Catch-all route for shortened URLs - redirect to API
