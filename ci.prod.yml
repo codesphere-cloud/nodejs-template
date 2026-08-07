@@ -5,12 +5,12 @@ prepare:
       command: cd frontend && npm ci
     - name: install backend dependencies
       command: cd backend && npm ci
+test:
+  steps:
     - name: run security audit
       command: cd backend && npm audit --audit-level moderate
     - name: run frontend audit
       command: cd frontend && npm audit --audit-level moderate
-test:
-  steps:
     - name: run backend tests
       command: cd backend && npm test
     - name: run frontend tests
