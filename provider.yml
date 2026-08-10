@@ -52,5 +52,9 @@ versions:
     description: Add health endpoint
   0.1.1:
     ciProfile: prod
+    gitRef: ab76d1c7e1594919b7d098838e536a0750c5a4ee
+    description: 'fix: Use same format for health as backend'
+  0.1.2:
+    ciProfile: prod
     gitRef: 3c811bf11c0c1db802f4a4cf633aae5f3f76f41d
     description: Don't run tests in the prepare-stage
