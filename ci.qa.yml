@@ -5,12 +5,12 @@ prepare:
       command: cd frontend && npm install
     - name: install backend dependencies
       command: cd backend && npm install
+test:
+  steps:
     - name: run linting
       command: cd backend && npm run lint
     - name: run frontend linting
       command: cd frontend && npm run lint
-test:
-  steps:
     - name: run backend tests
       command: cd backend && npm test
     - name: run frontend tests
