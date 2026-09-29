@@ -48,7 +48,7 @@ versions:
     description: Fix plan IDs (use plan ids that actually exist). Prod Profile
   0.1.0:
     ciProfile: prod
-    gitRef: 4aa368a7fcc4b2daba7b5c56e79df512a0e7a545
+    gitRef: 919538e244759cb566a40636897f558fe2ad3504
     description: Add health endpoint
   0.1.1:
     ciProfile: prod
